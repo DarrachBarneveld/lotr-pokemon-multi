@@ -7,15 +7,15 @@ import styles from "./FlipCard.module.css";
 export interface FlipCardProps {
   character: Character;
   actionFunction: (character: Character) => void;
-  actionFlip?: boolean;
-  active: boolean;
+  actionFlip: boolean;
+  active?: boolean;
 }
 
 const FlipCard: React.FC<FlipCardProps> = memo(
   ({ character, actionFunction, actionFlip, active }) => {
     const data = imageData.find((item) => item.name === character.name)!;
 
-    const [isFlipped, setIsFlipped] = useState(actionFlip);
+    const [isFlipped, setIsFlipped] = useState(true);
 
     useEffect(() => setIsFlipped(actionFlip), [actionFlip]);
 
@@ -35,12 +35,12 @@ const FlipCard: React.FC<FlipCardProps> = memo(
             className={`${styles["card-face"]} ${styles["card-face-front"]}`}
           ></div>
           <div className={`${styles["card-face"]} ${styles["card-face-back"]}`}>
-            <h3 className="text-lg">{character?.name.substring(0, 20)}</h3>
+            {/* <h3 className="text-lg">{character?.name.substring(0, 20)}</h3> */}
             <div className={styles["image-box"]}>
               <img
                 alt={`Picture of the ${character?.name}`}
                 className={styles.image}
-                src={data?.imageUrl}
+                src={data.imageUrl}
               />
             </div>
           </div>

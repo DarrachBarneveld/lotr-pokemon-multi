@@ -5,6 +5,7 @@ import ArenaContextProvider from "../context/ArenaContext";
 import { assignTurn } from "../helpers/gamingFunction";
 import { Character, IPlayer, IRoom } from "../models";
 import Arena from "./Arena";
+import ChatBox from "./ChatBox";
 import PickZone from "./PickZone";
 
 interface FightZoneProps {
@@ -39,26 +40,30 @@ const FightZone: FC<FightZoneProps> = ({ roomInfo }) => {
       // alert(`User ${data.player.userName} has joined the room!`);
       setRoom(data.room);
     });
-
-    socket.on("received_message", (data) => alert(data));
   }, [socket]);
 
   console.log(room);
 
   return (
     <ArenaContextProvider>
-      <div className="flex flex-col h-full py-6">
-        <h1 className="text-4xl text-slate-50 font-extrabold">{userIndex}</h1>
-        {room.turnIndex <= 10 ? (
-          <PickZone
-            room={room}
-            active={active}
-            setEnemyFlipped={setEnemyFlipped}
-            enemyFlipped={enemyFlipped}
-          />
-        ) : (
-          <Arena room={room} active={active} />
-        )}
+      <div className="flex flex-col h-full py-6 w-full">
+        <div className="text-4xl text-slate-50 font-extrabold">
+          {active ? <h1>Your Turn</h1> : <h1>Opponents Turn</h1>}
+        </div>
+        <div className="flex h-full w-full">
+          <ChatBox room={room} />
+
+          {room.turnIndex <= 10 ? (
+            <PickZone
+              room={room}
+              active={active}
+              setEnemyFlipped={setEnemyFlipped}
+              enemyFlipped={enemyFlipped}
+            />
+          ) : (
+            <Arena room={room} active={active} />
+          )}
+        </div>
       </div>
     </ArenaContextProvider>
   );

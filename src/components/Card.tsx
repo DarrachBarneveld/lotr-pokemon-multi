@@ -1,5 +1,5 @@
 import { FC } from "react";
-import image from "../assets/aragorn.jpg";
+import image from "../assets/images/characters/aragorn.webp";
 import { Attack, Character } from "../models";
 
 interface CardProps {

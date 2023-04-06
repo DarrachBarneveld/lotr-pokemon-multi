@@ -10,6 +10,7 @@ import {
 import { socket } from "../config/socket";
 import { ArenaContext } from "../context/ArenaContext";
 import { Character, IRoom } from "../models";
+
 import FlipCard from "./FlipCard";
 
 interface PickZoneProps {
@@ -57,29 +58,31 @@ const PickZone: FC<PickZoneProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-3 gap-2 md:grid-cols-5">
-      {randomCharacters.map((char, index) => {
-        if (enemyFlipped.includes(char)) {
-          return (
-            <FlipCard
-              active={active}
-              actionFlip={true}
-              key={index}
-              character={char}
-              actionFunction={handleSelectedFighters}
-            />
-          );
-        } else
-          return (
-            <FlipCard
-              active={active}
-              actionFlip={false}
-              key={index}
-              character={char}
-              actionFunction={handleSelectedFighters}
-            />
-          );
-      })}
+    <div className="flex justify-center w-full">
+      <div className="grid grid-cols-3 gap-2 md:grid-cols-5">
+        {randomCharacters.map((char, index) => {
+          if (enemyFlipped.includes(char)) {
+            return (
+              <FlipCard
+                active={active}
+                actionFlip={true}
+                key={index}
+                character={char}
+                actionFunction={handleSelectedFighters}
+              />
+            );
+          } else
+            return (
+              <FlipCard
+                active={active}
+                actionFlip={false}
+                key={index}
+                character={char}
+                actionFunction={handleSelectedFighters}
+              />
+            );
+        })}
+      </div>
     </div>
   );
 };
