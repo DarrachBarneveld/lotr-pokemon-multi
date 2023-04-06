@@ -49,7 +49,7 @@ const FightZone: FC<FightZoneProps> = ({ roomInfo }) => {
     <ArenaContextProvider>
       <div className="flex flex-col h-full py-6">
         <h1 className="text-4xl text-slate-50 font-extrabold">{userIndex}</h1>
-        {room.turnIndex <= 2 ? (
+        {room.turnIndex <= 10 ? (
           <PickZone
             room={room}
             active={active}
