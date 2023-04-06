@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+  @apply px-4 py-2 active:scale-95 bg-green-500 inline-flex items-center justify-center rounded-md text-lg font-medium uppercase transition-colors hover:bg-green-600 focus:bg-green-600 disabled:opacity-50 disabled:pointer-events-none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.background {
+  background: url("./assets/lotr-map-background.jpg");
+  background-size: contain;
+  min-height: 100vh;
+  min-width: 100vw;
+  text-align: center;
+}
+
+.gondor {
+  background-image: url("./assets/gondor.jpg");
+  background-size: 100%;
+  animation: pan-image 20s linear infinite;
+}
+
+.rohan {
+  background-image: url("./assets/rohan.jpg");
+  background-size: 100%;
+  animation: pan-image 20s linear infinite;
+}
+
+.isengard {
+  background-image: url("./assets/isengard.jpg");
+  background-size: 100%;
+  animation: pan-image 20s linear infinite;
+  object-fit: cover;
+}
+
+.mordor {
+  background-image: url("./assets/mordor.jpg");
+  background-size: 100%;
+  animation: pan-image 20s linear infinite;
+}
+
+@keyframes pan-image {
+  0% {
+    background-position: 36% 42%;
+    background-size: 200%;
+  }
+
+  20% {
+    background-position: 30% 35%;
+    background-size: 200%;
+  }
+
+  20.0001% {
+    /* -- View 2 -- */
+    background-position: 60% 85%;
+    background-size: 400%;
+  }
+
+  40% {
+    background-position: 49% 81%;
+    background-size: 400%;
+  }
+
+  40.0001% {
+    /* -- View 3 -- */
+    background-position: 80% 42%;
+    background-size: 300%;
+  }
+
+  60% {
+    background-position: 84% 33%;
+    background-size: 300%;
+  }
+
+  60.0001% {
+    /* -- View 4 -- */
+    background-position: 0% 0%;
+    background-size: 300%;
+  }
+
+  80% {
+    background-position: 15% 4%;
+    background-size: 300%;
+  }
+
+  80.0001% {
+    /* -- View 5 -- */
+    background-position: 80% 10%;
+    background-size: 200%;
+  }
+
+  100% {
+    background-position: 72% 14%;
+    background-size: 200%;
+  }
+}
