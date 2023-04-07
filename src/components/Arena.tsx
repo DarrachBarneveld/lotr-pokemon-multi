@@ -68,8 +68,6 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
 
     attackingCharacter.attack.disabledTurns =
       attackingCharacter.attack.disabledFor;
-
-    console.log(attackingCharacter.attack);
   }
 
   function handleSelectedFighter(character: Character) {
@@ -117,7 +115,7 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
     calculateAttackTimeRemaining(chosenAttacker);
 
   return (
-    <div className="flex flex-col h-full flex-1 justify-between items-center rounded-lg p-5">
+    <div className="flex flex-col h-full flex-1 justify-between items-center rounded-lg">
       <div className="flex flex-wrap gap-2">
         {enemyFighters.length > 0 &&
           enemyFighters.map((char, index) => (
@@ -181,17 +179,20 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
           })}
         </div>
 
-        <div className="text-lg flex w-1/2 rounded-xl border bg-slate-100 text-slate-900 font-semibold">
+        <div className="text-sm flex w-1/2 rounded-xl border bg-slate-100 text-slate-900 font-semibold">
           <div className="flex flex-col flex-1 p-2 gap-2">
             <div className="flex justify-between ">
-              <h3 className="text-xl text-left">{chosenAttacker?.name}</h3>
-              <HeartIcon id="1" percentage={percentage} stroke="black">
-                <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  {chosenAttacker.health}
-                </span>
-              </HeartIcon>
+              <h3 className="text-left text-base">{chosenAttacker?.name}</h3>
+              <div className="h-14 aspect-square">
+                <HeartIcon id="1" percentage={percentage} stroke="black">
+                  <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    {chosenAttacker.health}
+                  </span>
+                </HeartIcon>
+              </div>
             </div>
-            <div className="flex justify-between text-sm">
+            {/* <h3>{attackingCharacter.attack.name}</h3> */}
+            <div className="flex justify-between text-xs">
               <div className="flex flex-col">
                 <h5 className="underline">Race</h5>
                 <span>{chosenAttacker.race}</span>
@@ -207,27 +208,31 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
             </div>
           </div>
 
-          <div className="flex flex-col flex-1 p-2 space-y-2">
-            <div className="flex justify-between">
-              <h1>{chosenAttacker.mainAttack.name}</h1>
-              <h1 className="flex font-extrabold text-red-900">
-                {chosenAttacker.mainAttack.value}
-                <span className="h-6">
-                  <ExplosionIcon />
-                </span>
-              </h1>
+          <div className="flex flex-col flex-1 p-2 space-y-4">
+            <div className="flex flex-col space-y-1">
+              <div className="flex justify-between">
+                <h1>{chosenAttacker.mainAttack.name}</h1>
+                <h1 className="flex items-center font-extrabold text-red-900">
+                  {chosenAttacker.mainAttack.value}
+                  <span className="h-6">
+                    <ExplosionIcon />
+                  </span>
+                </h1>
+              </div>
+              <ProgressBar reverseWidth={mainPower} color="bg-blue-600" />
             </div>
-            <ProgressBar reverseWidth={mainPower} color="bg-blue-600" />
-            <div className="flex justify-between">
-              <h1>{chosenAttacker.specialAttack.name}</h1>
-              <h1 className="flex font-extrabold text-red-900">
-                {chosenAttacker.specialAttack.value}
-                <span className="h-6">
-                  <ExplosionIcon />
-                </span>
-              </h1>
+            <div className="flex flex-col space-y-1">
+              <div className="flex justify-between">
+                <h1>{chosenAttacker.specialAttack.name}</h1>
+                <h1 className="flex items-center font-extrabold text-red-900">
+                  {chosenAttacker.specialAttack.value}
+                  <span className="h-6">
+                    <ExplosionIcon />
+                  </span>
+                </h1>
+              </div>
+              <ProgressBar reverseWidth={specialPower} color="bg-green-600" />
             </div>
-            <ProgressBar reverseWidth={specialPower} color="bg-green-600" />
           </div>
         </div>
       </div>

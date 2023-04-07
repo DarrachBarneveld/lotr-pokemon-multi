@@ -42,14 +42,12 @@ const FightZone: FC<FightZoneProps> = ({ roomInfo }) => {
     });
   }, [socket]);
 
-  console.log(room);
-
   return (
     <ArenaContextProvider>
-      <div className="flex flex-col h-full py-6 w-full">
-        <div className="text-4xl text-slate-50 font-extrabold">
+      <div className="flex flex-col h-full p-2 w-full">
+        {/* <div className="text-4xl text-slate-50 font-extrabold">
           {active ? <h1>Your Turn</h1> : <h1>Opponents Turn</h1>}
-        </div>
+        </div> */}
         <div className="flex h-full w-full">
           <ChatBox room={room} />
 

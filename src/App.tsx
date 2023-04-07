@@ -34,7 +34,7 @@ function App() {
   }, [socket]);
 
   return (
-    <div className="background flex flex-col justify-center items-center space-y-10 h-full">
+    <div className="background flex flex-col justify-center items-center h-screen">
       <Navbar />
       {/* <div className="bg-slate-900 text-2xl text-slate-50 p-6">
         <h1>You Are in Room:</h1>

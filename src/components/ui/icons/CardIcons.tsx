@@ -107,7 +107,7 @@ export function HeartIcon({
 }: HeartIconProps) {
   return (
     <div className="relative flex items-center w-fit h-fit">
-      <svg viewBox="0 0 24 24" className="w-16">
+      <svg viewBox="0 0 24 24" className="w-full aspect-square">
         <linearGradient id={`gradient${id}`} gradientTransform="rotate(90)">
           <stop offset={`${percentage}%`} stopColor="white" stopOpacity=".5" />
           <stop offset={`${percentage}%`} stopColor="red" />

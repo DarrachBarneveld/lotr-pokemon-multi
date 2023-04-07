@@ -28,11 +28,11 @@ const PickZone: FC<PickZoneProps> = ({
 }) => {
   const { setFighters, setEnemyFighters } = useContext(ArenaContext);
   const randomCharactersRef = useRef<Character[]>();
-  const [randomCharacters, setRandomCharacter] = useState<Character[]>([]);
+  const [randomCharacters, setRandomCharacters] = useState<Character[]>([]);
 
   useEffect(() => {
     socket.on("random_characters", (data) => {
-      setRandomCharacter(data);
+      setRandomCharacters(data);
       randomCharactersRef.current = data;
     });
 

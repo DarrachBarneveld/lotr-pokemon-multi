@@ -45,7 +45,7 @@ const ChatBox: FC<ChatBoxProps> = ({ room }) => {
   }, [socket]);
 
   return (
-    <div className="flex flex-col p-2 border-2 border-green-600 bg-slate-50 h-[600px] w-96 rounded-xl shadow-2xl self-start justify-start">
+    <div className="flex flex-col p-2 border-2 border-green-600 bg-slate-50 h-[600px] w-84 rounded-xl shadow-2xl self-start justify-start">
       <div className="relative text-2xl border-b-slate-500 border-b p-1">
         <h3 className="font-bold">Messages</h3>
         <FontAwesomeIcon
@@ -53,7 +53,9 @@ const ChatBox: FC<ChatBoxProps> = ({ room }) => {
           className="absolute top-0 right-0 text-green-600 text-3xl"
         />
       </div>
-      <div className="flex-1 overflow-scroll space-y-2 mt-2">{chatArray}</div>
+      <div className="flex-1 overflow-scroll space-y-2 mt-2 text-xs">
+        {chatArray}
+      </div>
 
       <form className="flex" onSubmit={handleFormSubmit}>
         <textarea
