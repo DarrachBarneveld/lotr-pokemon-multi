@@ -30,7 +30,7 @@ const EnemyCard: FC<CardProps> = ({
       }`}
     >
       {active && !attackingCharacter && (
-        <div className="absolute z-50 flex justify-center items-center uppercase bg-black/75 w-full h-full">
+        <div className="absolute z-40 flex justify-center items-center uppercase bg-black/75 w-full h-full">
           <h4 className="text-white font-bold"> Select An Attack!</h4>
         </div>
       )}

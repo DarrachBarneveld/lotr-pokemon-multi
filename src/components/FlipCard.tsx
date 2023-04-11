@@ -26,7 +26,7 @@ const FlipCard: React.FC<FlipCardProps> = memo(
           setIsFlipped(true);
           actionFunction(character);
         }}
-        className="aspect-[2/3] w-[120px] hover:cursor-pointer hover:disabled:cursor-not-allowed"
+        className="aspect-[2/3] w-[90px] md:w-[120px] hover:cursor-pointer hover:disabled:cursor-not-allowed"
       >
         <div
           className={`${styles["card-inner"]} ${isFlipped && styles.isflipped}`}

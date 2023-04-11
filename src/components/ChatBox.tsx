@@ -46,10 +46,10 @@ const ChatBox: FC<ChatBoxProps> = ({ room }) => {
   }, [socket]);
 
   return (
-    <div className="absolute bottom-2 left-1 md:bottom-3 md:left-3 flex flex-col p-2 border-2 border-green-600 bg-slate-50 w-fit max-w-xs rounded-xl shadow-2xl z-40">
+    <div className="absolute flex z-50 left-1 top-1 flex-col p-2 border-2 border-green-600 bg-slate-50 w-fit max-w-xs rounded-xl shadow-2xl">
       {open ? (
         <>
-          <div className="relative  text-2xl border-b-slate-500 border-b p-1">
+          <div className="relative text-2xl border-b-slate-500 border-b p-1">
             <h3 className="font-bold">Messages</h3>
             <FontAwesomeIcon
               icon={faComments}

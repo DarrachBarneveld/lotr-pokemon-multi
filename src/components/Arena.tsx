@@ -15,6 +15,8 @@ import {
   SwordIcon,
 } from "./ui/icons/CardIcons";
 
+import deadImage from "../assets/deadoverlay.png";
+
 import imageData from "../assets/data/images.json";
 
 import { motion } from "framer-motion";
@@ -134,24 +136,30 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
       </div>
       <div className="flex justify-center items-center space-x-3">
         <button
-          disabled={chosenAttacker.mainAttack.disabledTurns > 0}
+          disabled={
+            chosenAttacker.mainAttack.disabledTurns > 0 ||
+            chosenAttacker.health <= 0
+          }
           onClick={() => handleAttackingCharacter(chosenAttacker.mainAttack)}
-          className={`w-14 lg:w-24 p-2 lg:p-4 rounded-full border-2 border-slate-200 shadow-2xl hover:bg-amber-300 hover:disabled:cursor-not-allowed ${
+          className={`action-btn ${
             isMainTrue
               ? "bg-amber-300 bg-opacity-100"
-              : "bg-slate-50 bg-opacity-50"
+              : "bg-slate-50 bg-opacity-75"
           }`}
         >
           <SwordIcon id="2" used={mainPower} stroke="black" />
         </button>
         {chosenAttacker && <FighterCard character={chosenAttacker} />}
         <button
-          disabled={chosenAttacker.specialAttack.disabledTurns > 0}
+          disabled={
+            chosenAttacker.specialAttack.disabledTurns > 0 ||
+            chosenAttacker.health <= 0
+          }
           onClick={() => handleAttackingCharacter(chosenAttacker.specialAttack)}
-          className={`w-14 lg:w-24 p-2 lg:p-4 rounded-full border-2 border-slate-200 shadow-xl hover:bg-amber-300 hover:disabled:cursor-not-allowed ${
+          className={`action-btn ${
             isSpecialTrue
               ? "bg-amber-300 bg-opacity-100"
-              : "bg-slate-50 bg-opacity-50"
+              : "bg-slate-50 bg-opacity-75"
           }`}
         >
           <SpecialPowerIcon id="3" used={specialPower} stroke="black" />
@@ -159,65 +167,73 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
       </div>
 
       {/* BOTTOM BAR */}
-      <div>
-        {!attackingCharacter && active && (
-          <div className=" rounded-xl text-white bg-red-500">Select Attack</div>
-        )}
-        <div className="relative z-20 flex flex-col space-y-2 justify-between bg-slate-900 items-center p-2 w-fit text-2xl text-white rounded-2xl shadow-2xl">
-          <div className="flex">
-            {fighters.map((fighter) => {
-              const data = imageData.find(
-                (item) => item.name === fighter.name
-              )!;
+      <div className="relative z-20 flex flex-col space-y-2 justify-between bg-slate-900 items-center p-2 w-fit text-2xl text-white rounded-2xl shadow-2xl">
+        <div className="flex">
+          {fighters.map((fighter) => {
+            const data = imageData.find((item) => item.name === fighter.name)!;
 
-              return (
+            return (
+              <div className="relative w-1/5 max-w-[100px] 2xl:max-w-[150px] border-4 aspect-square object-cover border-amber-300 rounded-full hover:cursor-pointer overflow-hidden">
                 <motion.img
                   whileHover={{ scale: 1.05 }}
                   src={data.imageUrl}
-                  className="w-1/5 max-w-[100px] 2xl:max-w-[150px] border-4 aspect-square object-cover border-amber-300 rounded-full hover:cursor-pointer"
+                  className="h-full w-full object-cover"
                   onClick={() => handleSelectedFighter(fighter)}
                 />
-              );
-            })}
-          </div>
+                {fighter.health <= 0 && (
+                  <div className="absolute top-0 bottom-0 z-40 flex justify-center items-center w-full h-full">
+                    <img src={deadImage} />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
 
-          {/* ATTACK INFORMATION */}
-          <div className="flex flex-col w-full justify-between flex-1 px-2 py-1 text-xs lg:text-sm bg-slate-100 text-slate-900 font-semibold rounded-xl">
-            <div className="flex justify-between">
-              <h3 className=" text-base lg:text-lg">{chosenAttacker?.name}</h3>
-              <div className="h-10 aspect-square">
-                <HeartIcon id="1" percentage={percentage} stroke="black">
-                  <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    {chosenAttacker.health}
-                  </span>
-                </HeartIcon>
-              </div>
+        {/* ATTACK INFORMATION */}
+        <div className="flex flex-col w-full justify-between flex-1  text-xs lg:text-sm bg-slate-100 text-slate-900 font-semibold rounded-xl">
+          <div className="flex justify-between p-1">
+            <h3 className=" text-base lg:text-lg">{chosenAttacker?.name}</h3>
+            <div className="h-10 aspect-square">
+              <HeartIcon id="1" percentage={percentage} stroke="black">
+                <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  {chosenAttacker.health}
+                </span>
+              </HeartIcon>
             </div>
-            <div className="flex w-full space-x-2 text-left">
-              <div className="flex flex-col space-y-1 flex-1">
-                <div className="flex justify-between">
-                  <h1>{chosenAttacker.mainAttack.name}</h1>
-                  <h1 className="flex items-center font-extrabold text-red-900">
-                    {chosenAttacker.mainAttack.value}
-                    <span className="h-6">
-                      <ExplosionIcon />
-                    </span>
-                  </h1>
-                </div>
-                <ProgressBar reverseWidth={mainPower} color="bg-blue-600" />
+          </div>
+          <div className="flex w-full space-x-2 text-left">
+            <div
+              className={`flex flex-col space-y-1 flex-1 p-1 rounded-lg ${
+                isMainTrue && "bg-amber-300"
+              }`}
+            >
+              <div className="flex justify-between">
+                <h1>{chosenAttacker.mainAttack.name}</h1>
+                <h1 className="flex items-center font-extrabold text-red-900">
+                  {chosenAttacker.mainAttack.value}
+                  <span className="h-6">
+                    <ExplosionIcon />
+                  </span>
+                </h1>
               </div>
-              <div className="flex flex-col space-y-1 flex-1">
-                <div className="flex justify-between ">
-                  <h1>{chosenAttacker.specialAttack.name}</h1>
-                  <h1 className="flex items-center font-extrabold text-red-900">
-                    {chosenAttacker.specialAttack.value}
-                    <span className="h-6">
-                      <ExplosionIcon />
-                    </span>
-                  </h1>
-                </div>
-                <ProgressBar reverseWidth={specialPower} color="bg-green-600" />
+              <ProgressBar reverseWidth={mainPower} color="bg-blue-600" />
+            </div>
+            <div
+              className={`flex flex-col space-y-1 flex-1 p-1 rounded-lg ${
+                isSpecialTrue && "bg-amber-300"
+              }`}
+            >
+              <div className="flex justify-between ">
+                <h1>{chosenAttacker.specialAttack.name}</h1>
+                <h1 className="flex items-center font-extrabold text-red-900">
+                  {chosenAttacker.specialAttack.value}
+                  <span className="h-6">
+                    <ExplosionIcon />
+                  </span>
+                </h1>
               </div>
+              <ProgressBar reverseWidth={specialPower} color="bg-green-600" />
             </div>
           </div>
         </div>
@@ -227,3 +243,28 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
 };
 
 export default Arena;
+{
+  /* <button
+disabled={chosenAttacker.mainAttack.disabledTurns > 0}
+onClick={() => handleAttackingCharacter(chosenAttacker.mainAttack)}
+className={`w-14 lg:w-24 p-2 lg:p-4 rounded-full border-2 border-slate-200 shadow-2xl hover:bg-amber-300 hover:disabled:cursor-not-allowed ${
+  isMainTrue
+    ? "bg-amber-300 bg-opacity-100"
+    : "bg-slate-50 bg-opacity-50"
+}`}
+>
+<SwordIcon id="2" used={mainPower} stroke="black" />
+</button>
+{chosenAttacker && <FighterCard character={chosenAttacker} />}
+<button
+disabled={chosenAttacker.specialAttack.disabledTurns > 0}
+onClick={() => handleAttackingCharacter(chosenAttacker.specialAttack)}
+className={`w-14 lg:w-24 p-2 lg:p-4 rounded-full border-2 border-slate-200 shadow-xl hover:bg-amber-300 hover:disabled:cursor-not-allowed ${
+  isSpecialTrue
+    ? "bg-amber-300 bg-opacity-100"
+    : "bg-slate-50 bg-opacity-50"
+}`}
+>
+<SpecialPowerIcon id="3" used={specialPower} stroke="black" />
+</button> */
+}

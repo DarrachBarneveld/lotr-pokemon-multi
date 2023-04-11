@@ -29,8 +29,6 @@ function App() {
     socket.on("room_created", (data) => setRoom(data));
   }, [socket]);
 
-  console.log(room);
-
   return (
     <div className="background">
       <Navbar />
