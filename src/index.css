@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .btn {
-  @apply px-4 py-2 active:scale-95 bg-green-500 inline-flex items-center justify-center rounded-md text-lg font-medium uppercase transition-colors hover:bg-green-600 focus:bg-green-600 disabled:opacity-50 disabled:pointer-events-none;
+  @apply p-2 active:scale-95 bg-green-500 inline-flex items-center justify-center rounded-md text-xs md:text-lg font-medium uppercase transition-colors hover:bg-green-600 focus:bg-green-600 disabled:opacity-50 disabled:pointer-events-none;
 }
 
 ::-webkit-scrollbar {

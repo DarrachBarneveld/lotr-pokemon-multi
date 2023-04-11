@@ -33,8 +33,8 @@ const Lobby: FC<LobbyProps> = ({}) => {
     socket.emit("load_all_rooms");
   };
 
-  const handleJoinRoom = () => {
-    socket.emit("join_room");
+  const handleJoinRoom = (id?: string) => {
+    socket.emit("join_room", id);
   };
 
   return (
@@ -46,21 +46,21 @@ const Lobby: FC<LobbyProps> = ({}) => {
               Lobby
             </h3>
             <div className="absolute top-0 right-0 flex  space-x-1">
-              <div className="space-x-3 bg-green-500 py-1 px-2 rounded-lg font-bold text-slate-50">
+              <div className="space-x-3 bg-green-500 px-1 rounded-lg font-bold text-slate-50">
                 <FontAwesomeIcon icon={faHouse} />
                 <span>{allRooms.length}</span>
               </div>
-              <div className=" space-x-3 bg-green-500 py-1 px-2 rounded-lg font-bold text-slate-50">
+              <div className=" space-x-3 bg-green-500 px-1 rounded-lg font-bold text-slate-50">
                 <FontAwesomeIcon icon={faUsers} />
                 <span>{totalUsers}</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-center space-x-3 p-3  bg-slate-800 w-full border-b border-slate-50">
+          <div className="flex items-center justify-center space-x-3 p-2  bg-slate-800 w-full border-b border-slate-50">
             <button className="btn" onClick={handleSearchRoom}>
               Search Room
             </button>
-            <button className="btn" onClick={handleJoinRoom}>
+            <button className="btn" onClick={() => handleJoinRoom()}>
               Join Room
             </button>
             <button className="btn" onClick={handleCreateRoom}>
@@ -68,9 +68,9 @@ const Lobby: FC<LobbyProps> = ({}) => {
             </button>
           </div>
         </div>
-        <div className="p-5 space-y-2">
+        <div className="p-2 space-y-2 w-full">
           {allRooms.length == 0 && (
-            <div className="flex flex-col items-center bg-slate-800 w-[500px] p-5 text-center text-slate-50 space-y-2 rounded-xl">
+            <div className="flex flex-col items-center bg-slate-800 w-[500px] p-4 text-center text-slate-50 space-y-2 rounded-xl">
               <h2 className="text-2xl">No Rooms Available</h2>
               <button className="btn w-fit" onClick={handleCreateRoom}>
                 Create Room
@@ -78,9 +78,10 @@ const Lobby: FC<LobbyProps> = ({}) => {
             </div>
           )}
           {allRooms.map((room, index) => (
-            <div
+            <button
+              onClick={() => handleJoinRoom(room.id)}
               key={index}
-              className="flex justify-center bg-slate-800 w-[500px] px-2 py-10 text-center text-slate-50 space-x-4 rounded-xl hover:bg-slate-600 hover:cursor-pointer"
+              className="flex flex-col justify-center bg-slate-800 w-full py-5 px-2 text-xs text-left  text-slate-50 space-y-2 rounded-xl md:flex-row md:text-center md:space-x-4 md:space-y-0 md:text-base md:py-10 md:px-4 hover:bg-slate-600 hover:cursor-pointer focus:bg-slate-600"
             >
               <p>
                 <strong>ROOM:</strong>
@@ -90,7 +91,7 @@ const Lobby: FC<LobbyProps> = ({}) => {
                 <strong>USERS:</strong>
                 {room.users}
               </p>
-            </div>
+            </button>
           ))}
         </div>
       </div>

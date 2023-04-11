@@ -33,7 +33,7 @@ function App() {
     // });
 
     // socket.on("received_message", (data) => alert(data));
-    // socket.on("room_created", (data) => setRoom(data));
+    socket.on("room_created", (data) => setRoom(data));
   }, [socket]);
 
   console.log(room);
