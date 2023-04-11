@@ -11,21 +11,14 @@ const FighterCard: FC<FighterCard> = ({ character }) => {
   const data = imageData.find((item) => item.name === character.name)!;
 
   return (
-    <div className="flex flex-col items-center text-sm p-3  bg-slate-100 w-48 shadow-2xl rounded-xl">
-      <div className="flex justify-between w-full text-bold text-sm font-extrabold tracking-wide">
-        <h3 className="text-left">{character.name}</h3>
-        <h3>{character.health}</h3>
-      </div>
-      <div className="w-full aspect-square bg-slate-400 rounded-lg overflow-hidden">
+    <div className="group relative flex flex-col items-center text-xs border-2 border-amber-300 overflow-hidden bg-slate-100 w-32 md:w-36 lg:w-40 xl:w-44 shadow-2xl rounded-xl 2xl:text-sm">
+      <div className="absolute w-full h-full top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-transparent from-50% to-slate-900" />
+      <div className="w-full aspect-[2/3] bg-slate-400 rounded-lg overflow-hidden">
         <img src={data.imageUrl} className="w-full h-full object-cover" />
       </div>
-      <div className="flex justify-between w-full py-1 border-b font-bold border-slate-800">
-        <h3>{character.mainAttack.name}</h3>
-        <h3>{character.mainAttack.value}</h3>
-      </div>
-      <div className="flex justify-between w-full py-1 border-b font-bold border-slate-800">
-        <h3>{character.specialAttack.name}</h3>
-        <h3>{character.specialAttack.value}</h3>
+
+      <div className="absolute bottom-0 p-2 text-slate-50 flex justify-between w-full text-bold text-base font-extrabold tracking-wide">
+        <h3 className="text-left">{character.name}</h3>
       </div>
     </div>
   );

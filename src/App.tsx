@@ -17,6 +17,9 @@ function App() {
   const [room, setRoom] = useState<IRoom | undefined>();
 
   useEffect(() => {
+    // socket.emit("default_join");
+    // socket.on("joined_default", (data) => setRoom(data));
+
     socket.on("leave_room", () => {
       setRoom(undefined);
     });
@@ -30,24 +33,17 @@ function App() {
     // });
 
     // socket.on("received_message", (data) => alert(data));
-    socket.on("room_created", (data) => setRoom(data));
+    // socket.on("room_created", (data) => setRoom(data));
   }, [socket]);
 
-  return (
-    <div className="background flex flex-col justify-center items-center h-screen">
-      <Navbar />
-      {/* <div className="bg-slate-900 text-2xl text-slate-50 p-6">
-        <h1>You Are in Room:</h1>
-        <h2>{room?.id}</h2>
-      </div>
-      <h1 className="text-white text-2xl"></h1> */}
+  console.log(room);
 
-      {room ? <FightZone roomInfo={room} /> : <Lobby />}
-      {/* <div className="grid grid-cols-3 gap-2 md:grid-cols-8">
-        {data.map((char) => (
-          <FlipCard character={char} actionFlip={true} />
-        ))}
-      </div> */}
+  return (
+    <div className="background">
+      <Navbar />
+      <div className="flex flex-col flex-1">
+        {room ? <FightZone roomInfo={room} /> : <Lobby />}
+      </div>
     </div>
   );
 }

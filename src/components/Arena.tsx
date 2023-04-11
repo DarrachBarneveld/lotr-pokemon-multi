@@ -17,7 +17,7 @@ import {
 
 import imageData from "../assets/data/images.json";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import ProgressBar from "./ui/ProgressBar";
 
 interface ArenaProps {
@@ -33,10 +33,7 @@ type AttackingHitData = {
 const Arena: FC<ArenaProps> = ({ room, active }) => {
   const { fighters, enemyFighters } = useContext(ArenaContext);
   const [attackingCharacter, setAttackingCharacter] =
-    useState<AttackingCharacter>({
-      name: fighters[0].name,
-      attack: fighters[0].mainAttack,
-    });
+    useState<AttackingCharacter>();
   const [chosenAttacker, setChosenAttacker] = useState<Character>(fighters[0]);
 
   const aliveFighters = fighters.filter((char) => char.health > 0);
@@ -66,16 +63,15 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
     socket.emit("attack", { attackingCharacter, targetCharacter, room });
     socket.emit("increment_turn", room);
 
-    attackingCharacter.attack.disabledTurns =
-      attackingCharacter.attack.disabledFor;
+    attackingCharacter!.attack.disabledTurns =
+      attackingCharacter!.attack.disabledFor;
+
+    setAttackingCharacter(undefined);
   }
 
   function handleSelectedFighter(character: Character) {
     setChosenAttacker(character);
-    setAttackingCharacter({
-      name: character.name,
-      attack: character.mainAttack,
-    });
+    setAttackingCharacter(undefined);
   }
 
   useEffect(() => {
@@ -114,35 +110,48 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
   const { mainPower, specialPower } =
     calculateAttackTimeRemaining(chosenAttacker);
 
+  const isMainTrue =
+    chosenAttacker.mainAttack.name === attackingCharacter?.attack.name;
+
+  const isSpecialTrue =
+    chosenAttacker.specialAttack.name === attackingCharacter?.attack.name;
+
   return (
-    <div className="flex flex-col h-full flex-1 justify-between items-center rounded-lg">
-      <div className="flex flex-wrap gap-2">
-        {enemyFighters.length > 0 &&
-          enemyFighters.map((char, index) => (
-            <EnemyCard
-              key={index}
-              character={char}
-              setTargetCharacter={handleTargetCharacter}
-              active={active}
-            />
-          ))}
+    <div className="flex flex-col w-full flex-1 justify-between items-center">
+      <div className="flex w-full overflow-scroll md:justify-center">
+        <div className="flex w-fit gap-2">
+          {enemyFighters.length > 0 &&
+            enemyFighters.map((char, index) => (
+              <EnemyCard
+                key={index}
+                character={char}
+                setTargetCharacter={handleTargetCharacter}
+                active={active}
+                attackingCharacter={attackingCharacter}
+              />
+            ))}
+        </div>
       </div>
-      <div className="flex justify-center items-center space-x-10">
+      <div className="flex justify-center items-center space-x-3">
         <button
+          disabled={chosenAttacker.mainAttack.disabledTurns > 0}
           onClick={() => handleAttackingCharacter(chosenAttacker.mainAttack)}
-          className={`p-4 rounded-full bg-slate-50 bg-opacity-50 border-4 border-slate-200 shadow-xl h-fit hover:bg-amber-300 ${
-            attackingCharacter?.attack === chosenAttacker.mainAttack &&
-            "bg-amber-300 bg-opacity-100"
+          className={`w-14 lg:w-24 p-2 lg:p-4 rounded-full border-2 border-slate-200 shadow-2xl hover:bg-amber-300 hover:disabled:cursor-not-allowed ${
+            isMainTrue
+              ? "bg-amber-300 bg-opacity-100"
+              : "bg-slate-50 bg-opacity-50"
           }`}
         >
           <SwordIcon id="2" used={mainPower} stroke="black" />
         </button>
         {chosenAttacker && <FighterCard character={chosenAttacker} />}
         <button
+          disabled={chosenAttacker.specialAttack.disabledTurns > 0}
           onClick={() => handleAttackingCharacter(chosenAttacker.specialAttack)}
-          className={`p-4 rounded-full bg-slate-50 bg-opacity-50 border-4 border-slate-200 shadow-xl h-fit hover:bg-amber-300 ${
-            attackingCharacter?.attack === chosenAttacker.specialAttack &&
-            "bg-amber-300 bg-opacity-100"
+          className={`w-14 lg:w-24 p-2 lg:p-4 rounded-full border-2 border-slate-200 shadow-xl hover:bg-amber-300 hover:disabled:cursor-not-allowed ${
+            isSpecialTrue
+              ? "bg-amber-300 bg-opacity-100"
+              : "bg-slate-50 bg-opacity-50"
           }`}
         >
           <SpecialPowerIcon id="3" used={specialPower} stroke="black" />
@@ -150,40 +159,33 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
       </div>
 
       {/* BOTTOM BAR */}
-      <div className="relative z-20 flex justify-between bg-slate-900 items-center p-2 w-full text-2xl text-white rounded-lg shadow-2xl">
-        <AnimatePresence mode="wait">
-          {!attackingCharacter && (
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              exit={{ y: 20, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              animate={{ y: 0, opacity: 1 }}
-              className="absolute -top-8 z-10 left-0 p-1 bg-red-700 w-full text-slate-50 text-xl rounded-t-2xl"
-            >
-              <h4>Select Attack</h4>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <div className=" flex w-1/2">
-          {fighters.map((fighter) => {
-            const data = imageData.find((item) => item.name === fighter.name)!;
+      <div>
+        {!attackingCharacter && active && (
+          <div className=" rounded-xl text-white bg-red-500">Select Attack</div>
+        )}
+        <div className="relative z-20 flex flex-col space-y-2 justify-between bg-slate-900 items-center p-2 w-fit text-2xl text-white rounded-2xl shadow-2xl">
+          <div className="flex">
+            {fighters.map((fighter) => {
+              const data = imageData.find(
+                (item) => item.name === fighter.name
+              )!;
 
-            return (
-              <motion.img
-                whileHover={{ scale: 1.05 }}
-                src={data.imageUrl}
-                className="w-1/5 border-4 aspect-square object-cover border-amber-300 rounded-full hover:cursor-pointer"
-                onClick={() => handleSelectedFighter(fighter)}
-              />
-            );
-          })}
-        </div>
+              return (
+                <motion.img
+                  whileHover={{ scale: 1.05 }}
+                  src={data.imageUrl}
+                  className="w-1/5 max-w-[100px] 2xl:max-w-[150px] border-4 aspect-square object-cover border-amber-300 rounded-full hover:cursor-pointer"
+                  onClick={() => handleSelectedFighter(fighter)}
+                />
+              );
+            })}
+          </div>
 
-        <div className="text-sm flex w-1/2 rounded-xl border bg-slate-100 text-slate-900 font-semibold">
-          <div className="flex flex-col flex-1 p-2 gap-2">
-            <div className="flex justify-between ">
-              <h3 className="text-left text-base">{chosenAttacker?.name}</h3>
-              <div className="h-14 aspect-square">
+          {/* ATTACK INFORMATION */}
+          <div className="flex flex-col w-full justify-between flex-1 px-2 py-1 text-xs lg:text-sm bg-slate-100 text-slate-900 font-semibold rounded-xl">
+            <div className="flex justify-between">
+              <h3 className=" text-base lg:text-lg">{chosenAttacker?.name}</h3>
+              <div className="h-10 aspect-square">
                 <HeartIcon id="1" percentage={percentage} stroke="black">
                   <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     {chosenAttacker.health}
@@ -191,47 +193,31 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
                 </HeartIcon>
               </div>
             </div>
-            {/* <h3>{attackingCharacter.attack.name}</h3> */}
-            <div className="flex justify-between text-xs">
-              <div className="flex flex-col">
-                <h5 className="underline">Race</h5>
-                <span>{chosenAttacker.race}</span>
+            <div className="flex w-full space-x-2 text-left">
+              <div className="flex flex-col space-y-1 flex-1">
+                <div className="flex justify-between">
+                  <h1>{chosenAttacker.mainAttack.name}</h1>
+                  <h1 className="flex items-center font-extrabold text-red-900">
+                    {chosenAttacker.mainAttack.value}
+                    <span className="h-6">
+                      <ExplosionIcon />
+                    </span>
+                  </h1>
+                </div>
+                <ProgressBar reverseWidth={mainPower} color="bg-blue-600" />
               </div>
-              <div className="flex flex-col">
-                <h5 className="underline">Height</h5>
-                <span>{chosenAttacker?.height}</span>
+              <div className="flex flex-col space-y-1 flex-1">
+                <div className="flex justify-between ">
+                  <h1>{chosenAttacker.specialAttack.name}</h1>
+                  <h1 className="flex items-center font-extrabold text-red-900">
+                    {chosenAttacker.specialAttack.value}
+                    <span className="h-6">
+                      <ExplosionIcon />
+                    </span>
+                  </h1>
+                </div>
+                <ProgressBar reverseWidth={specialPower} color="bg-green-600" />
               </div>
-              <div className="flex flex-col">
-                <h5 className="underline">Realm</h5>
-                <span>{chosenAttacker?.realm}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col flex-1 p-2 space-y-4">
-            <div className="flex flex-col space-y-1">
-              <div className="flex justify-between">
-                <h1>{chosenAttacker.mainAttack.name}</h1>
-                <h1 className="flex items-center font-extrabold text-red-900">
-                  {chosenAttacker.mainAttack.value}
-                  <span className="h-6">
-                    <ExplosionIcon />
-                  </span>
-                </h1>
-              </div>
-              <ProgressBar reverseWidth={mainPower} color="bg-blue-600" />
-            </div>
-            <div className="flex flex-col space-y-1">
-              <div className="flex justify-between">
-                <h1>{chosenAttacker.specialAttack.name}</h1>
-                <h1 className="flex items-center font-extrabold text-red-900">
-                  {chosenAttacker.specialAttack.value}
-                  <span className="h-6">
-                    <ExplosionIcon />
-                  </span>
-                </h1>
-              </div>
-              <ProgressBar reverseWidth={specialPower} color="bg-green-600" />
             </div>
           </div>
         </div>
@@ -241,16 +227,3 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
 };
 
 export default Arena;
-
-{
-  /* <div className="flex space-x-2">
-<div className="flex rounded-2xl p-4">
-  <button className="p-4 rounded-full bg-slate-50 bg-opacity-40 border-4 border-slate-200 shadow-xl">
-    <SwordIcon id="2" used={mainPower} stroke="black" />
-  </button>
-  <button className="p-4 rounded-full bg-slate-50 bg-opacity-40 border-4 border-slate-200 shadow-xl">
-    <SpecialPowerIcon id="3" used={specialPower} stroke="black" />
-  </button>
-</div>
-</div> */
-}

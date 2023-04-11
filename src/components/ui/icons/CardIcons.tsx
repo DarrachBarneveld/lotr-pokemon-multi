@@ -27,7 +27,7 @@ export function SwordIcon({ id, used, stroke, size }: PowerIconProps) {
   return (
     <svg
       viewBox="0 0 510.31 510.3"
-      className="w-16"
+      className="w-full"
       style={{ width: size, height: size }}
     >
       <linearGradient id={`swordgradient${id}`} gradientTransform="rotate(90)">
@@ -73,7 +73,7 @@ export function SpecialPowerIcon({ id, used, stroke, size }: PowerIconProps) {
   return (
     <svg
       viewBox="0 -0.5 17 17"
-      className="w-16"
+      className="w-full"
       style={{ width: size, height: size }}
     >
       <linearGradient id={`spicongradient${id}`} gradientTransform="rotate(90)">

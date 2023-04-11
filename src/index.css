@@ -11,11 +11,13 @@
 }
 
 .background {
+  display: flex;
   background: url("./assets/lotr-map-background.jpg");
   background-size: contain;
-  min-height: 100vh;
-  min-width: 100vw;
   text-align: center;
+  justify-content: space-between;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .gondor {

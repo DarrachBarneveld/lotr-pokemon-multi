@@ -7,6 +7,7 @@ import { Character, IPlayer, IRoom } from "../models";
 import Arena from "./Arena";
 import ChatBox from "./ChatBox";
 import PickZone from "./PickZone";
+import LoadingPulse from "./ui/LoadingPulse";
 
 interface FightZoneProps {
   roomInfo: IRoom;
@@ -44,24 +45,27 @@ const FightZone: FC<FightZoneProps> = ({ roomInfo }) => {
 
   return (
     <ArenaContextProvider>
-      <div className="flex flex-col h-full p-2 w-full">
-        {/* <div className="text-4xl text-slate-50 font-extrabold">
-          {active ? <h1>Your Turn</h1> : <h1>Opponents Turn</h1>}
-        </div> */}
-        <div className="flex h-full w-full">
-          <ChatBox room={room} />
-
-          {room.turnIndex <= 10 ? (
-            <PickZone
-              room={room}
-              active={active}
-              setEnemyFlipped={setEnemyFlipped}
-              enemyFlipped={enemyFlipped}
-            />
+      {!active && (
+        <div className="absolute flex flex-col justify-center items-center h-full w-full bg-black/50 z-40">
+          {room.users === 2 ? (
+            <LoadingPulse text="Opponents Turn" />
           ) : (
-            <Arena room={room} active={active} />
+            <LoadingPulse text="Waiting Player 2" />
           )}
         </div>
+      )}
+      <div className="flex p-2 justify-between flex-1 ">
+        <ChatBox room={room} />
+        {room.turnIndex <= 10 ? (
+          <PickZone
+            room={room}
+            active={active}
+            setEnemyFlipped={setEnemyFlipped}
+            enemyFlipped={enemyFlipped}
+          />
+        ) : (
+          <Arena room={room} active={active} />
+        )}
       </div>
     </ArenaContextProvider>
   );
