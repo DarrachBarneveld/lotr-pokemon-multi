@@ -1,11 +1,18 @@
 import { FC } from "react";
 import { ExplosionIcon } from "./icons/CardIcons";
+import useSound from "use-sound";
+
+import audio from "../../assets/audio/fight.mp3";
 
 interface HitAnimationProps {
   value: number;
 }
 
 const HitAnimation: FC<HitAnimationProps> = ({ value }) => {
+  const [hitSound] = useSound(audio);
+
+  hitSound();
+
   return (
     <div className="absolute">
       <div className="relative w-full aspect-square">

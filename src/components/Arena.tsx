@@ -15,8 +15,6 @@ import {
   SpecialPowerIcon,
   SwordIcon,
 } from "./ui/icons/CardIcons";
-import useSound from "use-sound";
-import audio from "../assets/audio/fight.mp3";
 
 import deadImage from "../assets/deadoverlay.png";
 
@@ -49,7 +47,6 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
 
   const aliveFighters = fighters.filter((char) => char.health > 0);
   const aliveEnemy = enemyFighters.filter((char) => char.health > 0);
-  const [hitSound] = useSound(audio);
 
   useEffect(() => {
     if (aliveFighters.length === 0) {
@@ -95,8 +92,6 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
 
   async function animationTimerAsync() {
     setShowModal(true);
-    hitSound();
-
     await animationTimer(1000);
     setShowModal(false);
   }
@@ -113,6 +108,8 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
       };
 
       animatedAttack.current = attackData;
+
+      console.log("running attack");
 
       const allCharacters = [...fighters, ...enemyFighters];
 
@@ -149,7 +146,7 @@ const Arena: FC<ArenaProps> = ({ room, active }) => {
         }
       });
     });
-  }, [socket, hitSound]);
+  }, [socket]);
 
   const percentage = calculateCharacterHealth(chosenAttacker);
 
