@@ -3,6 +3,7 @@ import { AttackingCharacter, Character } from "../models";
 import imageData from "../assets/data/images.json";
 import { ExplosionIcon, HeartIcon } from "./ui/icons/CardIcons";
 import { calculateCharacterHealth } from "../helpers/gamingFunction";
+import deadImage from "../assets/deadoverlay.png";
 
 interface CardProps {
   character: Character;
@@ -20,18 +21,25 @@ const EnemyCard: FC<CardProps> = ({
   const data = imageData.find((item) => item.name === character.name)!;
 
   const percentage = calculateCharacterHealth(character);
+  const health = character.health <= 0;
 
   return (
     <button
-      disabled={!active || !attackingCharacter}
+      disabled={!active || !attackingCharacter || health}
       onClick={() => setTargetCharacter(character)}
-      className={`group relative flex flex-col items-center text-xs md:text-sm border border-amber-300 overflow-hidden w-28 md:w-32 lg:w-40 xl:w-44 bg-slate-100 shadow-2xl rounded-xl 2xl:text-sm hover:brightness-105 hover:curs hover:disabled:cursor-not-allowed ${
+      className={`group relative flex flex-col items-center text-xs md:text-sm border border-amber-300 overflow-hidden w-28 md:w-32 2xl:w-44 bg-slate-100 shadow-2xl rounded-xl 2xl:text-sm hover:brightness-105 hover:curs hover:disabled:cursor-not-allowed ${
         attackingCharacter?.attack.isSpecial ? "cursor-special" : "cursor-sword"
       }`}
     >
       {active && !attackingCharacter && (
         <div className="absolute z-40 flex justify-center items-center uppercase bg-black/75 w-full h-full">
           <h4 className="text-white font-bold"> Select An Attack!</h4>
+        </div>
+      )}
+
+      {health && (
+        <div className="absolute z-30 flex justify-center items-center w-full h-full">
+          <img src={deadImage} />
         </div>
       )}
       {active && attackingCharacter && (
@@ -49,16 +57,16 @@ const EnemyCard: FC<CardProps> = ({
       <div className="w-full aspect-[2/3] bg-slate-400 rounded-lg overflow-hidden">
         <img src={data.imageUrl} className="w-full h-full object-cover" />
       </div>
+      <div className="absolute right-0 text-slate-50 h-12 w-12">
+        <HeartIcon id={character.name} percentage={percentage} stroke="black">
+          <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            {character.health}
+          </span>
+        </HeartIcon>
+      </div>
 
       <div className="absolute bottom-0 p-1 text-slate-50 flex justify-between w-full text-bold font-extrabold tracking-wide">
         <h3 className="text-left">{character.name.substring(0, 20)}</h3>
-        <div className="h-12 w-12">
-          <HeartIcon id={character.name} percentage={percentage} stroke="black">
-            <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              {character.health}
-            </span>
-          </HeartIcon>
-        </div>
       </div>
     </button>
   );

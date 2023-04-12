@@ -46,7 +46,7 @@ const FightZone: FC<FightZoneProps> = ({ roomInfo }) => {
   return (
     <ArenaContextProvider>
       {!active && (
-        <div className="absolute top-0 bottom-0 flex flex-col justify-center items-center h-full w-full bg-black/50 z-40">
+        <div className="absolute top-0 bottom-0 flex flex-col justify-center items-center w-full h-full bg-black/50 z-40">
           {room.users === 2 ? (
             <LoadingPulse text="Opponents Turn" />
           ) : (

@@ -4,7 +4,13 @@ import { socket } from "../config/socket";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { IRoom } from "../models";
-import { faHouse, faSearch, faUsers } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouse,
+  faSearch,
+  faShuffle,
+  faSquarePlus,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface LobbyProps {}
 
@@ -68,14 +74,14 @@ const Lobby: FC<LobbyProps> = ({}) => {
               className="btn text-slate-50 space-x-1"
               onClick={() => handleJoinRoom()}
             >
-              <FontAwesomeIcon icon={faSearch} />
+              <FontAwesomeIcon icon={faShuffle} />
               <span>Join</span>
             </button>
             <button
               className="btn text-slate-50 space-x-1"
               onClick={handleCreateRoom}
             >
-              <FontAwesomeIcon icon={faSearch} />
+              <FontAwesomeIcon icon={faSquarePlus} />
               <span>Create</span>
             </button>
           </div>

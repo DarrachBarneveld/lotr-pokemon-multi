@@ -7,7 +7,7 @@
 }
 
 .action-btn {
-  @apply w-14 lg:w-24 p-2 lg:p-4 rounded-full border-2 border-slate-800  button-shadow hover:bg-amber-300 hover:disabled:cursor-not-allowed disabled:bg-red-600;
+  @apply h-12 md:h-16 aspect-square rounded-xl p-1 shadow-2xl hover:bg-amber-300 hover:disabled:cursor-not-allowed disabled:bg-red-600 button-shadow;
 }
 
 ::-webkit-scrollbar {
@@ -20,13 +20,14 @@
 }
 
 .background {
+  position: relative;
   display: flex;
   background: url("./assets/lotr-map-background.jpg");
   background-size: contain;
   text-align: center;
   justify-content: space-between;
   flex-direction: column;
-  height: 100svh;
+  min-height: 100svh;
 }
 
 .gondor {
