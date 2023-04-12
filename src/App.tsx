@@ -25,7 +25,6 @@ function App() {
     //   setEnemyFighters((prev) => [...prev, data]);
     // });
 
-    // socket.on("received_message", (data) => alert(data));
     socket.on("room_created", (data) => setRoom(data));
   }, [socket]);
 

@@ -25,6 +25,7 @@ const EnemyCard: FC<CardProps> = ({
 
   return (
     <button
+      id={character._id}
       disabled={!active || !attackingCharacter || health}
       onClick={() => setTargetCharacter(character)}
       className={`group relative flex flex-col items-center text-xs md:text-sm border border-amber-300 overflow-hidden w-28 md:w-32 2xl:w-44 bg-slate-100 shadow-2xl rounded-xl 2xl:text-sm hover:brightness-105 hover:curs hover:disabled:cursor-not-allowed ${

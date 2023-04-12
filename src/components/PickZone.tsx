@@ -59,9 +59,11 @@ const PickZone: FC<PickZoneProps> = ({
 
   return (
     <div className="flex flex-1 flex-col justify-evenly items-center w-full">
-      <h2 className="text-3xl text-white uppercase font-bold md:text-5xl">
-        Pick a card
-      </h2>
+      {randomCharacters.length > 0 && (
+        <h2 className="text-3xl text-white uppercase font-bold md:text-5xl">
+          Pick a card
+        </h2>
+      )}
       <div className=" flex flex-wrap justify-center items-center max-w-lg gap-2 ">
         {randomCharacters.map((char, index) => {
           if (enemyFlipped.includes(char)) {

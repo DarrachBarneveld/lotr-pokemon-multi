@@ -12,8 +12,8 @@ const ProgressBar: FC<ProgressBarProps> = ({ reverseWidth, color }) => {
   const width = `${widthNum}%`;
 
   return (
-    <div className="w-full bg-slate-600 rounded-full h-2.5 dark:bg-gray-700">
-      <div className={`${color} h-2.5 rounded-full`} style={{ width }}></div>
+    <div className="w-full bg-slate-600 rounded-full h-2 dark:bg-gray-700">
+      <div className={`${color} h-2 rounded-full`} style={{ width }}></div>
     </div>
   );
 };
