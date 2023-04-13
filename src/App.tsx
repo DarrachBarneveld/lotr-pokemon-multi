@@ -29,7 +29,7 @@ function App() {
   }, [socket]);
 
   return (
-    <div className="background">
+    <div className={`background ${room?.zone}`}>
       <Navbar />
       <div className="flex flex-col flex-1">
         {room ? <FightZone roomInfo={room} /> : <Lobby />}
