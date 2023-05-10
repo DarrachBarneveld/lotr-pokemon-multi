@@ -11,7 +11,7 @@ import {
   faSquarePlus,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
-import Region from "./Region";
+import BackgroundSelection from "./BackgroundSelection";
 
 interface LobbyProps {}
 
@@ -48,23 +48,7 @@ const Lobby: FC<LobbyProps> = ({}) => {
   return (
     <>
       {creatingRoom ? (
-        <div className="flex flex-1 justify-center items-center">
-          <div className="container grid grid-cols-2 max-w-4xl flex-wrap gap-4 p-4">
-            <Region region="rohan" onClick={() => handleCreateRoom("rohan")} />
-            <Region
-              region="mordor"
-              onClick={() => handleCreateRoom("mordor")}
-            />
-            <Region
-              region="isengard"
-              onClick={() => handleCreateRoom("isengard")}
-            />
-            <Region
-              region="gondor"
-              onClick={() => handleCreateRoom("gondor")}
-            />
-          </div>
-        </div>
+        <BackgroundSelection handleCreateRoom={handleCreateRoom} />
       ) : (
         <div className="flex flex-1 justify-center items-center p-2">
           <div className="flex flex-col h-[600px] pt-0 overflow-scroll items-center w-full max-w-xl rounded-xl space-y-4 bg-slate-100 border-2 border-slate-800 ">
@@ -126,19 +110,16 @@ const Lobby: FC<LobbyProps> = ({}) => {
                   <button
                     onClick={() => handleJoinRoom(room.id)}
                     key={index}
-                    className="flex flex-col justify-center bg-slate-800 w-full py-5 px-2 text-xs text-left  text-slate-50 space-y-2 rounded-xl md:flex-row md:text-center md:space-x-4 md:space-y-0 md:text-base md:py-10 md:px-4 hover:bg-slate-600 hover:cursor-pointer focus:bg-slate-600"
+                    className={`relative flex justify-between w-full py-5 text-base text-slate-50 rounded-xl overflow-hidden md:text-lg  md:py-10 md:px-4 border-2 border-slate-900 hover:brightness-125 transition-all duration-300 focus:brightness-125 hover:scale-105 focus:scale-105 hover:cursor-pointer ${room.zone}`}
                   >
-                    <p>
-                      <strong>ROOM:</strong>
-                      {room.id}
+                    <p className=" font-extrabold rounded-lg p-1">
+                      ROOM: {room.id.substring(0, 10)}
                     </p>
-                    <p>
-                      <strong>USERS:</strong>
-                      {room.users}
+                    <p className=" font-extrabold rounded-lg p-1">
+                      USERS: {room.users}
                     </p>
-                    <p>
-                      <strong>Zone:</strong>
-                      {room.zone}
+                    <p className=" font-extrabold rounded-lg p-1 uppercase">
+                      ZONE: {room.zone}
                     </p>
                   </button>
                 );

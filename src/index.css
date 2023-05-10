@@ -17,6 +17,7 @@
 .button-shadow {
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  text-align: justify;
 }
 
 .background {
@@ -41,12 +42,28 @@
 }
 
 .rohan {
+  background: url("lasfsaf") center center no-repeat fixed;
   background-image: url("./assets/rohan.jpg");
   background-size: cover;
 }
 
 .isengard {
   background-image: url("./assets/isengard.jpg");
+  background-size: cover;
+}
+
+.shire {
+  background-image: url("./assets/shire.jpg");
+  background-size: cover;
+}
+
+.rivendell {
+  background-image: url("./assets/rivendell.jpg");
+  background-size: cover;
+}
+
+.erebor {
+  background-image: url("./assets/erebor.jpg");
   background-size: cover;
 }
 

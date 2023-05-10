@@ -5,6 +5,7 @@ import { IRoom } from "./models";
 import Lobby from "./components/Lobby";
 import { socket } from "./config/socket";
 import FightZone from "./components/FightZone";
+import HomePage from "./components/HomePage";
 
 function App() {
   const [room, setRoom] = useState<IRoom | undefined>();
@@ -31,9 +32,11 @@ function App() {
   return (
     <div className={`background ${room?.zone}`}>
       <Navbar />
-      <div className="flex flex-col flex-1">
-        {room ? <FightZone roomInfo={room} /> : <Lobby />}
-      </div>
+      <main className="flex flex-col flex-1">
+        <HomePage />
+
+        {/* {room ? <FightZone roomInfo={room} /> : <Lobby />} */}
+      </main>
     </div>
   );
 }

@@ -9,8 +9,8 @@ import { calculateAttackTimeRemaining } from "../helpers/gamingFunction";
 
 interface FighterCard {
   character: Character;
-  isMainTrue: boolean;
-  isSpecialTrue: boolean;
+  isMainTrue?: boolean;
+  isSpecialTrue?: boolean;
 }
 
 const FighterCard: FC<FighterCard> = ({
@@ -51,7 +51,7 @@ const FighterCard: FC<FighterCard> = ({
   return (
     <div
       id={character._id}
-      className={`group relative flex flex-col items-center w-48 text-xs font-semibold border-4 ${className} shadow-2xl rounded-xl overflow-hidden  lg:w-56 xl:w-60 lg:text-sm`}
+      className={`group relative flex flex-col items-center w-48 text-xs font-semibold border-4 ${className} shadow-2xl rounded-xl overflow-hidden text-slate-900 lg:w-56 xl:w-60 lg:text-sm`}
     >
       {character.health <= 0 && (
         <div className="absolute z-40 flex justify-center items-center w-full h-full">
