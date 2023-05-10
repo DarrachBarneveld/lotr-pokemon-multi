@@ -33,9 +33,9 @@ function App() {
     <div className={`background ${room?.zone}`}>
       <Navbar />
       <main className="flex flex-col flex-1">
-        <HomePage />
+        {/* <HomePage /> */}
 
-        {/* {room ? <FightZone roomInfo={room} /> : <Lobby />} */}
+        {room ? <FightZone roomInfo={room} /> : <Lobby />}
       </main>
     </div>
   );
