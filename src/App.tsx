@@ -10,6 +10,8 @@ import HomePage from "./components/HomePage";
 function App() {
   const [room, setRoom] = useState<IRoom | undefined>();
 
+  console.log(socket);
+
   useEffect(() => {
     // socket.emit("default_join");
     // socket.on("joined_default", (data) => setRoom(data));

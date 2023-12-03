@@ -92,6 +92,13 @@ const Lobby: FC<LobbyProps> = ({}) => {
                 </button>
               </div>
             </div>
+            <div className="bg-slate-300 px-2 rounded-sm">
+              <h3 className="text-xl font-bold">Alone?</h3>
+              <p>
+                Create another instance on an incognito browser to test out the
+                game solo!
+              </p>
+            </div>
             <div className="p-2 space-y-2 w-full">
               {allRooms.length == 0 && (
                 <div className="flex flex-col items-center bg-slate-800 w-full py-5 px-2 text-center text-slate-50 space-y-2 rounded-xl">
